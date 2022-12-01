@@ -8,7 +8,7 @@
         <param name="topic" type="string" value="$(arg topic)" />
         <param name="topic_to_compare" type="string" value="$(arg topic_to_compare)" />
     </node>
-    <node name="pulse_plot" pkg="plotjuggler" type="PlotJuggler" args="--layout $(find common)/config/compare_config.xml"/>
+    <node name="pulse_plot" pkg="plotjuggler" type="plotjuggler" args="--layout $(find common)/config/compare_config.xml"/>
     <group if="$(eval arg('topic_to_compare') == '/pulse_head_movement')">
         <group if="$(eval arg('topic') == '/pulse_chest_strap')">
             <include file="$(find pulse_head_movement)/launch/webcam.launch"/>
