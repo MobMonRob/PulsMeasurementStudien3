@@ -225,7 +225,7 @@ class PulseHeadMovement:
         y_point_distance = np.diff(rounded_signal)
         y_point_distance = np.absolute(y_point_distance)
         # get the maximum distance for each point
-        max_distances = map(lambda diff: np.amax(diff), y_point_distance)
+        max_distances = list(map(lambda diff: np.amax(diff), y_point_distance))
         mode, _ = stats.mode(max_distances)
         # only keep the points with max_distance equal or lower than the mode
         for point_index, point in enumerate(y_tracking_signal):
