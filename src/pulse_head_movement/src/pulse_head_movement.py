@@ -54,7 +54,7 @@ class PulseHeadMovement:
         # the refresh rate specifies how many frames each calculated feature points should be tracked
         self.refresh_rate = 300
         # the publish rate specifies how many frames are between each published pulse value
-        self.publish_rate = 50
+        self.publish_rate = 30
         self.frame_index = 0
         # current positions of the tracking point for each buffer position
         # three dimensional array of the form
@@ -125,7 +125,7 @@ class PulseHeadMovement:
         new_points, _, _ = cv2.calcOpticalFlowPyrLK(self.previous_image, image, previous_points, None, **lk_params)
         # visualization of tracking points
         for p in new_points:
-            cv2.circle(vis, (p[0][0], p[0][1]), 2, (0, 255, 0), -1)
+            cv2.circle(vis, (int(p[0][0]), int(p[0][1])), int(2), (0, 255, 0), -1)
         cv2.imshow('lk_track', vis)
         cv2.waitKey(3)
         return new_points
