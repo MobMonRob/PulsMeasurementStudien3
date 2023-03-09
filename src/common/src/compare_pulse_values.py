@@ -102,7 +102,7 @@ class ComparePulseValues:
         csv_file = open(filename, "a+")
 
         writer = csv.writer(csv_file)
-        writer.writerow([timestamp, self.error])
+        writer.writerow([timestamp, self.pulse, self.pulseToCompare ,self.error])
 
 
 def main():
