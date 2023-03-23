@@ -165,8 +165,8 @@ class PulseMeasurement:
         self.buffer_size = 0
         self.time_array = []
         self.calculating_at = 0
-        self.calculating_boarder = 50
-        self.recording_time = 10
+        self.calculating_boarder = 10
+        self.recording_time = 15
         self.isFirst = True
         self.arrayLength = 0
 

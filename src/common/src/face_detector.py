@@ -35,8 +35,8 @@ class FaceDetector:
         """
 
         # Get gray scale image from OpenCV
-        # gray_scale_image = cv2.cvtColor(cv_image, cv2.COLOR_BGR2GRAY)
-        gray_scale_image = cv2.cvtColor(cv_image, cv2.COLOR_BGR2YCrCb)
+        gray_scale_image = cv2.cvtColor(cv_image, cv2.COLOR_BGR2GRAY)
+        # gray_scale_image = cv2.cvtColor(cv_image, cv2.COLOR_BGR2YCrCb)
         # gray_scale_image = cv_image
 
         # Create the haar cascade

@@ -37,7 +37,9 @@ class VideoInput:
 
         if self.video_file:
             # Creates an OpenCV VideoCapture out of the provided video file
-            capture = cv2.VideoCapture(self.video_file)
+            # capture = cv2.VideoCapture(self.video_file)
+            capture = cv2.VideoCapture(cv2.cvtColor(self.video_file, cv2.COLOR_BGR2YCrCb))
+            
             self.video_fps = int(capture.get(cv2.CAP_PROP_FPS))
             self.total_video_frames = int(capture.get(cv2.CAP_PROP_FRAME_COUNT))
             self.video_duration = self.total_video_frames / float(self.video_fps)
