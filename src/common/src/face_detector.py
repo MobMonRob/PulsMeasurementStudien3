@@ -35,7 +35,9 @@ class FaceDetector:
         """
 
         # Get gray scale image from OpenCV
-        gray_scale_image = cv2.cvtColor(cv_image, cv2.COLOR_BGR2GRAY)
+        # gray_scale_image = cv2.cvtColor(cv_image, cv2.COLOR_BGR2GRAY)
+        gray_scale_image = cv2.cvtColor(cv_image, cv2.COLOR_BGR2YCrCb)
+        # gray_scale_image = cv_image
 
         # Create the haar cascade
         face_cascade = cv2.CascadeClassifier(self.cascade_file)
@@ -61,7 +63,7 @@ class FaceDetector:
             rospy.loginfo("[FaceDetector] No faces detected!")
 
             if self.show_image_frame is True:
-                cv2.imshow("Image", cv_image)
+                cv2.imshow("Image", gray_scale_image)
                 cv2.waitKey(3)
             return
 

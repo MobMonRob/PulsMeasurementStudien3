@@ -102,10 +102,13 @@ def extract_red_values(gaussian_frame, show_processed_image):
     if show_processed_image:
         red_values = []
         for i in range(0, gaussian_frame.shape[0]):
+            # extract red value from row i in gaussian pyramid
             red_value = gaussian_frame[i, :, 2]
             red_values.append(red_value)
     else:
-        red_values = gaussian_frame[:, :, 2]
+        #  for i in range(0, gaussian_frame.shape[0]):
+        #         bgr_frame = cv2.cvtColor(gaussian_frame[i], cv2.COLOR_BGR2GRAY)
+                red_values = gaussian_frame[:, :, 2]
     return red_values
 
 
