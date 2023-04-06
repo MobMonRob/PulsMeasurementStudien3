@@ -174,6 +174,7 @@ class PulseHeadMovement:
             rospy.loginfo("[PulseHeadMovement] array not full yet ")
         else:
             # process points on the last array position
+            rospy.loginfo_once("ARRAY FULL: HEADMOVEMENT READY")
             self.buffer_points.pop()
             points_calculate_pulse = self.buffered_y_tracking_signal.pop()
             current_time_array = self.buffered_time_arrays.pop()
@@ -401,7 +402,8 @@ class PulseHeadMovement:
         measured_time = time_array[-1] - time_array[0]
         pulse = (len(peaks) / measured_time) * 60
         # pulse = np.int16(pulse)
-        rospy.loginfo("[PulseHeadMovement] Pulse: " + str(pulse))
+        roundPulse=round(pulse,0)
+        rospy.loginfo("[PulseHeadMovement] Pulse: " + str(roundPulse))
         # uncomment the following lines to see the final singal with the detected peaks. For debugging.
         # stepsize = 1. / sample_rate
         # xs = np.arange(time_array[0], time_array[-1], stepsize)
@@ -410,7 +412,7 @@ class PulseHeadMovement:
         # plt.plot(xs, signal, label="S")
         # plt.plot(xs[peaks], signal[peaks], "x")
         # plt.savefig(filename)
-        return pulse
+        return roundPulse
 
     def publish_pulse(self, pulse_value, publish_time):
         """
