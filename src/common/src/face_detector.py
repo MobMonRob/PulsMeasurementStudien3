@@ -36,8 +36,8 @@ class FaceDetector:
 
         # Get gray scale image from OpenCV
         gray_scale_image = cv2.cvtColor(cv_image, cv2.COLOR_BGR2GRAY)
-        # gray_scale_image = cv2.cvtColor(cv_image, cv2.COLOR_BGR2YCrCb)
-        # gray_scale_image = cv_image
+        #gray_scale_image = cv2.cvtColor(cv_image, cv2.COLOR_BGR2YCrCb)
+        
 
         # Create the haar cascade
         face_cascade = cv2.CascadeClassifier(self.cascade_file)
@@ -123,7 +123,7 @@ class FaceDetector:
         # Call callback with mask
         if self.mask_callback is not None:
             self.mask_callback(gray_scale_image, forehead_mask, bottom_mask, timestamp)
-
+        # self.show_image_frame = True
         if self.show_image_frame is True:
             # Visualize face in original image
             cv2.rectangle(cv_image, (face_x, face_y), (face_x + face_w, face_y + face_h), (255, 0, 0), 2)

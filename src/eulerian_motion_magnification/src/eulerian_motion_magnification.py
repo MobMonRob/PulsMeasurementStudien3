@@ -99,6 +99,7 @@ def extract_red_values(gaussian_frame, show_processed_image):
     """
     Filters red-intensities of the image (Color channel 2) and adds to red_values list
     """
+    gaussian_frame = cv2.cvtColor(np.float32(gaussian_frame), cv2.COLOR_YCrCb2BGR)
     if show_processed_image:
         red_values = []
         for i in range(0, gaussian_frame.shape[0]):
@@ -156,9 +157,11 @@ class PulseMeasurement:
         self.show_processed_image = show_processed_image
         self.count = 0
         self.levels = 2
-        self.low = 0.9
-        self.high = 1.7
-        self.amplification = 30
+        # self.low = 0.9
+        # self.high = 1.7
+        self.low = 0.8 # in Hz
+        self.high = 2 #in Hz
+        self.amplification = 100
         self.publisher = PulsePublisher("eulerian_motion_magnification")
         self.fps = 30
         self.video_array = []
@@ -166,7 +169,7 @@ class PulseMeasurement:
         self.time_array = []
         self.calculating_at = 0
         self.calculating_boarder = 10
-        self.recording_time = 15
+        self.recording_time = 10
         self.isFirst = True
         self.arrayLength = 0
 
@@ -188,6 +191,7 @@ class PulseMeasurement:
         # append timestamp to array
         self.time_array.append(timestamp)
         # normalize, resize and downsample image
+        roi = cv2.cvtColor(np.float32(roi), cv2.COLOR_BGR2YCrCb)
         normalized = cv2.normalize(roi.astype('float'), None, 0.0, 1.0, cv2.NORM_MINMAX)
         cropped = cv2.resize(normalized, (200, 200))
         gaussian_frame = build_gaussian_frame(cropped, self.levels)
