@@ -127,6 +127,7 @@ class PulseHeadMovement:
         for p in new_points:
             cv2.circle(vis, (int(p[0][0]), int(p[0][1])), int(2), (0, 255, 0), -1)
         cv2.imshow('lk_track', vis)
+        # cv2.imshow('Image', vis)
         cv2.waitKey(3)
         return new_points
 
@@ -402,7 +403,7 @@ class PulseHeadMovement:
         measured_time = time_array[-1] - time_array[0]
         pulse = (len(peaks) / measured_time) * 60
         # pulse = np.int16(pulse)
-        roundPulse=round(pulse,0)
+        roundPulse=round(pulse)
         rospy.loginfo("[PulseHeadMovement] Pulse: " + str(roundPulse))
         # uncomment the following lines to see the final singal with the detected peaks. For debugging.
         # stepsize = 1. / sample_rate
@@ -459,7 +460,7 @@ def main():
 
     # Start heart rate measurement
     pulse = PulseHeadMovement()
-
+    # show_image_frame = True für zweites Bild mit Rechtecken
     face_detector = FaceDetector(input_topic, cascade_file)
     face_detector.mask_callback = pulse.pulse_callback
     face_detector.run(video_file, bdf_file, show_image_frame)
