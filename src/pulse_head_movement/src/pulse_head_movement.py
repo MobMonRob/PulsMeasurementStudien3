@@ -282,7 +282,7 @@ class PulseHeadMovement:
         """
         sample_rate = len(input_signal[0])/(time_array[-1]-time_array[0])
         rospy.loginfo("[PulseHeadMovement] sample rate: "+str(sample_rate))
-        lowcut = 0.75
+        lowcut = 0.85
         highcut = 5
         filtered_signal = np.empty([np.size(input_signal, 0), np.size(input_signal, 1)])
         for point_index, point in enumerate(input_signal):
