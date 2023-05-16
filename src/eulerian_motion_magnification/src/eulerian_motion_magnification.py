@@ -99,7 +99,7 @@ def extract_red_values(gaussian_frame, show_processed_image):
     """
     Filters red-intensities of the image (Color channel 2) and adds to red_values list
     """
-    gaussian_frame = cv2.cvtColor(np.float32(gaussian_frame), cv2.COLOR_YCrCb2BGR)
+    #gaussian_frame = cv2.cvtColor(np.float32(gaussian_frame), cv2.COLOR_YCrCb2BGR)
     if show_processed_image:
         red_values = []
         for i in range(0, gaussian_frame.shape[0]):
@@ -107,9 +107,7 @@ def extract_red_values(gaussian_frame, show_processed_image):
             red_value = gaussian_frame[i, :, 2]
             red_values.append(red_value)
     else:
-        #  for i in range(0, gaussian_frame.shape[0]):
-        #         bgr_frame = cv2.cvtColor(gaussian_frame[i], cv2.COLOR_BGR2GRAY)
-                red_values = gaussian_frame[:, :, 2]
+        red_values = gaussian_frame[:, :, 2]
     return red_values
 
 
@@ -130,7 +128,7 @@ def upsample_images(processed_video, unprocessed_video, arraylength, levels):
     return upsampled_images
 
 
-def show_images(processed_video, unprocessed_video, arraylength, isFirst, levels, calculating_boarder, fps):
+def show_images(processed_video, unprocessed_video, arraylength, isFirst, levels, calculating_border, fps):
     """
     Show upsampled images to make color-intensity-changes visible to the human eye.
     Show whole video-sequence if it's the first time executing. If it's not the first time,
@@ -139,11 +137,11 @@ def show_images(processed_video, unprocessed_video, arraylength, isFirst, levels
     :param unprocessed_video: Array, containing original frames without filtering and amplification
     :param isFirst: indicates, whether first round of calculation
     :param levels: depth of gaussian pyramide, indicates how many rounds are needed to upsample
-    :param calculating_boarder: how many images are new since last calculation
+    :param calculating_border: how many images are new since last calculation
     """
     processed_video = upsample_images(processed_video, unprocessed_video, arraylength, levels)
     if not isFirst:
-        processed_video = processed_video[-calculating_boarder:]
+        processed_video = processed_video[-calculating_border:]
     for image in processed_video:
         time.sleep(1/fps)
         cv2.imshow("colour changes pulse", image)
@@ -159,8 +157,8 @@ class PulseMeasurement:
         self.levels = 2
         # self.low = 0.9
         # self.high = 1.7
-        self.low = 0.8 # in Hz
-        self.high = 2 #in Hz
+        self.low = 0.7 # in Hz
+        self.high = 1.7 #in Hz
         self.amplification = 100
         self.publisher = PulsePublisher("eulerian_motion_magnification")
         self.fps = 30
@@ -168,7 +166,7 @@ class PulseMeasurement:
         self.buffer_size = 0
         self.time_array = []
         self.calculating_at = 0
-        self.calculating_boarder = 10
+        self.calculating_border = 5
         self.recording_time = 10
         self.isFirst = True
         self.arrayLength = 0
@@ -211,7 +209,7 @@ class PulseMeasurement:
             self.time_array.pop(0)
             self.calculating_at = self.calculating_at + 1
             # calculate again after certain amount of images
-            if self.calculating_at >= self.calculating_boarder:
+            if self.calculating_at >= self.calculating_border:
                 rospy.loginfo("[EulerianMotionMagnification] Length final " + str(len(self.video_array)))
                 self.calculate_fps()
                 copy_video_array = np.copy(self.video_array)
@@ -220,7 +218,7 @@ class PulseMeasurement:
                 if self.show_processed_image:
                     self.arrayLength = len(self.video_array)
                     processed_video = amplify_video(copy_video_array, amplify=self.amplification)
-                    show_images(processed_video, self.video_array, self.arrayLength, self.isFirst, self.levels, self.calculating_boarder, self.fps)
+                    show_images(processed_video, self.video_array, self.arrayLength, self.isFirst, self.levels, self.calculating_border, self.fps)
                 else:
                     copy_video_array = amplify_video(copy_video_array, amplify=self.amplification)
                 pulse, red_values = calculate_pulse(copy_video_array, self.recording_time, self.show_processed_image)
